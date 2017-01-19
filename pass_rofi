@@ -13,6 +13,7 @@ password_files=( "$prefix"/**/*.gpg )
 password_files=( "${password_files[@]#"$prefix"/}" )
 password_files=( "${password_files[@]%.gpg}" )
 
+[[ -d ~/.notes-store ]] || mkdir ~/.notes-store
 fix=${NOTES_DIR-~/.notes-store}
 notes_files=( "$fix"/**/*.txt )
 notes_files=( "${notes_files[@]#"$fix"/}" )
