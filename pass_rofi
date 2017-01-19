@@ -18,7 +18,7 @@ notes_files=( "$fix"/**/*.txt )
 notes_files=( "${notes_files[@]#"$fix"/}" )
 notes_files=( "${notes_files[@]%.txt}" )
 
-echo -e "password view\ngoogle otp\npassword edit\nnew password\nremove password\nnotes view\nnotes new/edit\nnotes remove" | $ROFI -font "Inconsolata 14" -p SELECT: | read x
+echo -e "password view\ngoogle otp\npassword edit\nnew password\nremove password\nnotes view\nnotes new/edit\nnotes remove" | $ROFI -font -p SELECT: | read x
 
 case $x in
 password\ view)  printf '%s\n' "${password_files[@]}" | $ROFI -p PASS: > /tmp/a && notify-send -u critical "$(pass show $(< /tmp/a) 2>/dev/null)" ;;
