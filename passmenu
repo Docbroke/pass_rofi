@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+## Run this script from terminal or bind it to a key as something like "sakura -eh passmenu"
+## assumes working pass installation with password store in ~/.password-store (default)
+## the script depends on pmenu
+
+shopt -s nullglob globstar lastpipe
+
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+password_files=( "$prefix"/**/*.gpg )
+password_files=( "${password_files[@]#"$prefix"/}" )
+password_files=( "${password_files[@]%.gpg}" )
+
+echo -e "password view\ngoogle otp\npassword edit\nnew password\nremove password" | pmenu -p SELECT: | read ops
+
+case $ops in
+    password\ view)  pass show $(printf '%s\n' "${password_files[@]}" | pmenu -p PASSWORD_VIEW:) ;;
+    password\ edit) pass edit $(printf '%s\n' "${password_files[@]}" | pmenu -p PASSWORD_EDIT:) ;; 
+    new\ password) pass edit $(cat /dev/null | pmenu -p NEW_PASSWORD:) ;;
+    remove\ password) pass rm $(printf '%s\n' "${password_files[@]}" | pmenu -p REMOVE_PASSWORD:) ;;
+esac
